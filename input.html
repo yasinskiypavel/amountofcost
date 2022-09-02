@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Ввод данных в полях</title>
+	<style>
+		td select,
+		td input {
+			width: 125px;
+		}
+		#td {
+			width: 200px;
+		}
+	</style>
+</head>
+
+<body>
+
+  <form name="sum">
+    <table>
+      <tr>
+        <td id="td">Укажи количество этажей</td>
+        <td>
+          <input name="numberOfFloors" type="number" value="30" required>
+        </td>
+      </tr>
+      <tr>
+        <td id="td">Укажи за какое количество этажей происходит повышение цены</td>
+        <td>
+          <input name="priceIncreaseNumberOfFloors" type="number" value="10" required>
+        </td>
+      </tr>
+    </table>
+
+  </form>
+
+	<table>
+      <tr>
+        <td>Самая дорогая квартира стоит <span id="apartmentPrice"></span></td>
+        <td>
+          <th id="apartmentPrice"></th>
+        </td>
+      </tr>
+      <tr>
+        <td>Количество различных цен на квартиры равно <span id="numberOfDifferentApartmentPrices"></span></td>
+        <td>
+          <th id="numberOfDifferentApartmentPrices"></th>
+        </td>
+      </tr>
+      <tr>
+        <td>Сумма стоимости всех квартир равна <span id="amountOfCost"></span></td>
+        <td>
+          <th id="amountOfCost"></th>
+        </td>
+      </tr>
+    </table>
+
+  <script>
+
+    let form = document.forms.sum;
+
+    form.numberOfFloors.oninput = calculate;
+    form.priceIncreaseNumberOfFloors.oninput = calculate;
+
+    function calculate() {
+      let numberOfFloors = form.numberOfFloors.value; // Задаём количество этажей // N
+      let priceIncreaseNumberOfFloors = form.priceIncreaseNumberOfFloors.value; // Задаём за какое количество этажей происходит повышение цены // M
+	  let apartmentPrice = 10000; // Задаём стоимость квартиры на первом этаже // X
+      let numberOfDifferentApartmentPrices = Math.ceil(numberOfFloors / priceIncreaseNumberOfFloors); // Считаем количество различных цен на квартиры
+      let floorCheckNumber = 0; // Задаём номер проверки M этажей (первые, вторые, третьи M этажей)
+      let amountOfCost = 0;
+
+      while (floorCheckNumber < numberOfDifferentApartmentPrices)
+      {
+		floorCheckNumber = floorCheckNumber + 1;
+		amountOfCostN = priceIncreaseNumberOfFloors * apartmentPrice;
+		amountOfCost = amountOfCost + amountOfCostN;
+        if (floorCheckNumber < numberOfDifferentApartmentPrices)
+        {
+		  apartmentPrice = apartmentPrice + 1000;
+        }
+      }
+
+      let modulo = numberOfFloors % priceIncreaseNumberOfFloors // Задаём остаток от деления
+      if (modulo != 0)
+      {
+		amountOfCostModulo = (priceIncreaseNumberOfFloors - modulo) * apartmentPrice;
+		amountOfCost = amountOfCost - amountOfCostModulo;
+      }
+	  
+      document.getElementById('apartmentPrice').innerHTML = apartmentPrice;
+      document.getElementById('numberOfDifferentApartmentPrices').innerHTML = numberOfDifferentApartmentPrices;
+      document.getElementById('amountOfCost').innerHTML = amountOfCost;
+    }
+
+    calculate();
+	
+  </script>
+
+</body>
+</html>
